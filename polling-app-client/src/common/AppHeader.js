@@ -3,6 +3,7 @@ import {
     Link,
     withRouter
 } from 'react-router-dom';
+import main_ci from '../img/main-ci.png'
 import './AppHeader.css';
 import pollIcon from '../poll.svg';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
@@ -16,13 +17,16 @@ class AppHeader extends Component {
 
     handleMenuClick({ key }) {
       if(key === "logout") {
-        this.props.onLogout();
+        this.props.onLogout();    //onLogout의 내용인 handleLogout 함수실행
+      }
+      if(key ==='profile'){
+        console.log('profile');
       }
     }
 
     render() {
         let menuItems;
-        if(this.props.currentUser) {
+        if(this.props.currentUser) {  //로그인여부에 따른 메뉴상태변경
           menuItems = [
             <Menu.Item key="/">
               <Link to="/">
@@ -55,14 +59,14 @@ class AppHeader extends Component {
             <Header className="app-header">
             <div className="container">
               <div className="app-title" >
-                <Link to="/">Polling App</Link>
+                <Link to="/"> <img id="main_img" draggable="false" src={main_ci} alt=''/> </Link>
               </div>
               <Menu
                 className="app-menu"
                 mode="horizontal"
                 selectedKeys={[this.props.location.pathname]}
                 style={{ lineHeight: '64px' }} >
-                  {menuItems}
+                {menuItems}
               </Menu>
             </div>
           </Header>
@@ -71,8 +75,8 @@ class AppHeader extends Component {
 }
 
 function ProfileDropdownMenu(props) {
-  const dropdownMenu = (
-    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
+  const dropdownMenu = ( // onClick의 역할 : 메뉴의 key를 가져와서 링크가없는 logout을 처리해줌
+    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu"> 
       <Menu.Item key="user-info" className="dropdown-item" disabled>
         <div className="user-full-name-info">
           {props.currentUser.name}
@@ -85,6 +89,7 @@ function ProfileDropdownMenu(props) {
       <Menu.Item key="profile" className="dropdown-item">
         <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
       </Menu.Item>
+      <Menu.Divider />
       <Menu.Item key="logout" className="dropdown-item">
         Logout
       </Menu.Item>

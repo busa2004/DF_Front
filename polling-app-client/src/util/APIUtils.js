@@ -10,15 +10,15 @@ const request = (options) => {
     }
 
     const defaults = {headers: headers};
-    options = Object.assign({}, defaults, options);
-
-    return fetch(options.url, options)
-    .then(response => 
+    options = Object.assign({}, defaults, options); //Object.assign 병합하기 (타겟변수,값1,값2)
+    
+    return fetch(options.url, options)  // header url method 설정후 fetch
+    .then(response =>  //받은값을 json으로 바꾸고
         response.json().then(json => {
-            if(!response.ok) {
+            if(!response.ok) {  //response.ok 통신성공여부
                 return Promise.reject(json);
             }
-            return json;
+            return json; //json을 리턴해준다
         })
     );
 };
@@ -79,10 +79,10 @@ export function checkEmailAvailability(email) {
     });
 }
 
-
+//localStorage : 브라우저상의 저장소
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
+        return Promise.reject("No access token set."); //resolve 성공 reject 실패
     }
 
     return request({
@@ -114,6 +114,22 @@ export function getUserVotedPolls(username, page, size) {
 
     return request({
         url: API_BASE_URL + "/users/" + username + "/votes?page=" + page + "&size=" + size,
+        method: 'GET'
+    });
+}
+
+export function getUserTask() {
+
+    return request({
+        url: API_BASE_URL + "/usertask/all",
+        method: 'GET'
+    });
+}
+
+export function getUserCalendar(username) {
+
+    return request({
+        url: 'http://218.39.221.79:8080/api/task/nopage',
         method: 'GET'
     });
 }

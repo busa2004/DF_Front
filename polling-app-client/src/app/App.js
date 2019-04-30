@@ -5,30 +5,30 @@ import {
   withRouter,
   Switch
 } from 'react-router-dom';
-
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
-
+import SiderMenu from '../common/SiderMenu';
 import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
+import Option1 from '../option/Option1';
+import Option2 from '../option/Option2';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
-
 import { Layout, notification } from 'antd';
-const { Content } = Layout;
+const { Sider, Content, Footer } = Layout;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null,
-      isAuthenticated: false,
-      isLoading: false
+      currentUser: null,       //유저아이디
+      isAuthenticated: false,  //로그인여부
+      isLoading: false         //로딩여부
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -46,20 +46,20 @@ class App extends Component {
       isLoading: true
     });
     getCurrentUser()
-    .then(response => {
+    .then(response => {        //로그인이 되어있을때
       this.setState({
         currentUser: response,
         isAuthenticated: true,
         isLoading: false
       });
-    }).catch(error => {
+    }).catch(error => {        //로그인이 안되어있을때
       this.setState({
         isLoading: false
       });  
     });
   }
 
-  componentDidMount() {
+  componentWillMount() { //렌더후에
     this.loadCurrentUser();
   }
 
@@ -93,14 +93,18 @@ class App extends Component {
       return <LoadingIndicator />
     }
     return (
-        <Layout className="app-container">
-          <AppHeader isAuthenticated={this.state.isAuthenticated} 
+       <Layout className="app-container">
+         <AppHeader isAuthenticated={this.state.isAuthenticated} 
             currentUser={this.state.currentUser} 
             onLogout={this.handleLogout} />
 
+                    
           <Content className="app-content">
-            <div className="container">
-              <Switch>      
+            <Layout>
+            <Sider className="app-Sider" ><SiderMenu/></Sider>
+            <div className="center">
+            <div className="main">
+              <Switch>     
                 <Route exact path="/" 
                   render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
                       currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>
@@ -111,12 +115,27 @@ class App extends Component {
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
+            
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+                
+                <PrivateRoute path="/Option1" authenticated={this.state.isAuthenticated} component={(props) => (<Option1 currentUser={this.state.currentUser} {...props}  />)}>
+                 </PrivateRoute>
+
+                <Route path="/Option2" 
+                render={(props) => <Option2 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route>
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
+            </div>
+            </Layout>
+            <Footer style={{ textAlign: 'center' }}>
+            Design ©2019 Created by SungJun
+          </Footer>
           </Content>
-        </Layout>
+ 
+
+          </Layout>
+
     );
   }
 }
