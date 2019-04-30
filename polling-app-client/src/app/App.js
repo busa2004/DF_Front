@@ -8,7 +8,6 @@ import {
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import SiderMenu from '../common/SiderMenu';
-import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
@@ -20,6 +19,8 @@ import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
 import { Layout, notification } from 'antd';
+import wall from '../img/minion_2-wallpaper-1680x1050.jpg'
+
 const { Sider, Content, Footer } = Layout;
 
 class App extends Component {
@@ -63,7 +64,7 @@ class App extends Component {
     this.loadCurrentUser();
   }
 
-  handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
+  handleLogout(redirectTo="/", notificationType="success", description="로그아웃 되셨습니다.") {
     localStorage.removeItem(ACCESS_TOKEN);
 
     this.setState({
@@ -74,15 +75,15 @@ class App extends Component {
     this.props.history.push(redirectTo);
     
     notification[notificationType]({
-      message: 'Polling App',
+      message: '더존팩토리',
       description: description,
     });
   }
 
   handleLogin() {
     notification.success({
-      message: 'Polling App',
-      description: "You're successfully logged in.",
+      message: '더존팩토리',
+      description: "반갑습니다.",
     });
     this.loadCurrentUser();
     this.props.history.push("/");
@@ -105,9 +106,8 @@ class App extends Component {
             <div className="center">
             <div className="main">
               <Switch>     
-                <Route exact path="/" 
-                  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
-                      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>
+                <Route exact path="/" >
+                  <img src={wall} width="100%" alt="poll" className="wall" textAlign="center" />
                 </Route>
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
@@ -118,7 +118,7 @@ class App extends Component {
             
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
                 
-                <PrivateRoute path="/Option1" authenticated={this.state.isAuthenticated} component={(props) => (<Option1 currentUser={this.state.currentUser} {...props}  />)}>
+                <PrivateRoute  path="/Option1" authenticated={this.state.isAuthenticated} component={(props) => (<Option1 currentUser={this.state.currentUser} {...props}  />)}>
                  </PrivateRoute>
 
                 <Route path="/Option2" 

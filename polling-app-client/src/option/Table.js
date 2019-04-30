@@ -6,27 +6,15 @@ const columns = [{
   title: '상태',
   dataIndex: 'state',
   filters: [{
-    text: 'Joe',
-    value: 'Joe',
+    text: '시작',
+    value: 'start',
   }, {
-    text: 'Jim',
-    value: 'Jim',
-  }, {
-    text: 'Submenu',
-    value: 'Submenu',
-    children: [{
-      text: 'Green',
-      value: 'Green',
-    }, {
-      text: 'Black',
-      value: 'Black',
-    }],
+    text: '마감',
+    value: 'end',
   }],
   // specify the condition of filtering result
   // here is that finding the name started with `value`
   onFilter: (value, record) => record.state.indexOf(value) === 0,
-  sorter: (a, b) => a.state.length - b.state.length,
-  sortDirections: ['descend'],
 }, {
   title: '제목',
   dataIndex: 'title',
@@ -35,64 +23,54 @@ const columns = [{
 }, {
   title: '내용',
   dataIndex: 'content',
-  filters: [{
-    text: 'London',
-    value: 'London',
-  }, {
-    text: 'New York',
-    value: 'New York',
-  }],
-  filterMultiple: false,
-  onFilter: (value, record) => record.content.indexOf(value) === 0,
   sorter: (a, b) => a.content.length - b.content.length,
   sortDirections: ['descend', 'ascend'],
 }];
 
-const data = [{
-  key: '1',
-  state: 'John Brown',
-  title: 32,
-  content: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  state: 'Jim Green',
-  title: 42,
-  content: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  state: 'Joe Black',
-  title: 32,
-  content: 'Sidney No. 1 Lake Park',
-}, {
-  key: '4',
-  state: 'Jim Red',
-  title: 32,
-  content: 'London No. 2 Lake Park',
-}];
-
 function onChange(pagination, filters, sorter) {
   console.log('params', pagination, filters, sorter);
+  
 }
 
 class Option1Table extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        data:[],
+        cnt:0,
+    }
+  }
 
     render() {
      // console.log(this.props.time.format('YYYY-MM-DD'));
       //console.log(moment(this.props.data[0].createdAt).format('YYYY-MM-DD'));
       const datas = this.props.data;
+      const size = 3;
+      for(let i=0;i<this.state.cnt;i++){
+      this.state.data.pop();
+      }
       
       for(let i=0;i<datas.length;i++){
         if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].createdAt).format('YYYY-MM-DD')) {
-
-        }else if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].updateAt).format('YYYY-MM-DD')){
-
+          
+          if(moment(this.props.data[i].createdAt).format('YYYY-MM-DD')===moment(this.props.data[i].updatedAt).format('YYYY-MM-DD')){
+            this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'마감day'}); 
+            this.state.cnt++;
+          }else{
+            this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'등록day'}); 
+            this.state.cnt++
+          }
+        }else if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].updatedAt).format('YYYY-MM-DD')){
+          this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'마감day'}); 
+          this.state.cnt++
         }
       }
 
-
       return (
-            <Table columns={columns} dataSource={data} onChange={onChange} />
+            <Table columns={columns} dataSource={this.state.data} onChange={onChange} pagination={{ defaultPageSize: 3 }} />
         );
+       
+
     }
 }
  export default Option1Table;

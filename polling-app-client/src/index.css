@@ -61,6 +61,7 @@ input.up:hover, input.up:focus, input.up:visited {
 margin-top: 64px;
 text-align: right;
 }
+
 @media (max-width: 768px) {
   h1 {
     font-size: 1.7em;

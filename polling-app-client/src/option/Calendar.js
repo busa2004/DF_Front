@@ -22,12 +22,12 @@ class Option1Calendar extends Component {
     let listData = [];
    for(let i=0;i<this.state.cal.length;i++){
     let year = parseInt(moment(this.state.cal[i].createdAt).format('YYYY'),10);
-    let endyear = parseInt(moment(this.state.cal[i].updateAt).format('YYYY'),10);
+    let endyear = parseInt(moment(this.state.cal[i].updatedAt).format('YYYY'),10);
     let month = parseInt(moment(this.state.cal[i].createdAt).format('MM'),10)-1;
-    let endmonth = parseInt(moment(this.state.cal[i].updateAt).format('MM'),10)-1;
+    let endmonth = parseInt(moment(this.state.cal[i].updatedAt).format('MM'),10)-1;
     let date = parseInt(moment(this.state.cal[i].createdAt).format('DD'),10);
-    let enddate = parseInt(moment(this.state.cal[i].updateAt).format('DD'),10) ;
-    
+    let enddate = parseInt(moment(this.state.cal[i].updatedAt).format('DD'),10) ;
+
     switch(value.year()){
              case year :
                  switch(value.month()){
@@ -54,9 +54,6 @@ class Option1Calendar extends Component {
            default:
       }
 }
-if(listData.length>0){
-console.log(listData);}
-
     return listData || [];
 }
   
