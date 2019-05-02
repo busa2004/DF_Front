@@ -46,8 +46,16 @@ body {
 .information{
   margin-bottom: 5px;
 }
-.Option2{
+.Option2,.Option3,.Option4,.Option5,.Option6{
   text-align: left;
+}
+.ant-btn.Nopass.ant-btn-primary{
+  background-color: #ED1B24;
+  border-color: #ED1B24;
+}
+
+.ant-input-group.ant-input-group-compact{
+  width: 100%;
 }
 input.up:hover, input.up:focus, input.up:visited {
   pointer-events: none;

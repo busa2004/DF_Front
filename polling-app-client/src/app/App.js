@@ -13,6 +13,11 @@ import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Option1 from '../option/Option1';
 import Option2 from '../option/Option2';
+import Option3 from '../option/Option3';
+import Option4 from "../option/Option4";
+import Option5 from "../option/Option5";
+import Option6 from "../option/Option6";
+
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
@@ -115,7 +120,7 @@ class App extends Component {
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
-            
+              
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
                 
                 <PrivateRoute  path="/Option1" authenticated={this.state.isAuthenticated} component={(props) => (<Option1 currentUser={this.state.currentUser} {...props}  />)}>
@@ -123,7 +128,18 @@ class App extends Component {
 
                 <Route path="/Option2" 
                 render={(props) => <Option2 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route>
+               
+                <Route path="/Option3" component={Option3}></Route>
+                 
+                <Route path="/Option4" component={Option4}></Route>
+                
+                <Route path="/Option5" component={Option5}></Route>
+
+                <Route path="/Option6" component={Option6}></Route>
+               
                 <Route component={NotFound}></Route>
+
+               
               </Switch>
             </div>
             </div>
