@@ -17,6 +17,8 @@ import Option3 from '../option/Option3';
 import Option4 from "../option/Option4";
 import Option5 from "../option/Option5";
 import Option6 from "../option/Option6";
+import Option7 from "../option/Option7";
+import Option8 from "../option/Option8";
 
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
@@ -136,6 +138,10 @@ class App extends Component {
                 <Route path="/Option5" component={Option5}></Route>
 
                 <Route path="/Option6" component={Option6}></Route>
+
+                <Route path="/Option7" component={Option7}></Route>
+
+                <Route path="/Option8" component={Option8}></Route>
                
                 <Route component={NotFound}></Route>
 

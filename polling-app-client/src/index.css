@@ -46,7 +46,7 @@ body {
 .information{
   margin-bottom: 5px;
 }
-.Option2,.Option3,.Option4,.Option5,.Option6{
+.Option2,.Option3,.Option4,.Option5,.Option6,.Option7,.Option8{
   text-align: left;
 }
 .ant-btn.Nopass.ant-btn-primary{
@@ -69,6 +69,13 @@ input.up:hover, input.up:focus, input.up:visited {
 margin-top: 64px;
 text-align: right;
 }
+
+.MuiExpansionPanelDetails-root-98{
+  border-width: 1px;
+  border-style: solid;
+  border-color: #E8E8E8;
+}
+
 
 @media (max-width: 768px) {
   h1 {
