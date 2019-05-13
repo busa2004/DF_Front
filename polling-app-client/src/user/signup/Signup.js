@@ -60,11 +60,11 @@ class Signup extends Component {
         };
         signup(signupRequest)
         .then(response => {
-            notification.success({     //옆에 표시띄우기
+            notification.success({
                 message: 'Polling App',
                 description: "Thank you! You're successfully registered. Please Login to continue!",
             });          
-            this.props.history.push("/login"); //행동 후 이동
+            this.props.history.push("/login");
         }).catch(error => {
             notification.error({
                 message: 'Polling App',
@@ -83,8 +83,8 @@ class Signup extends Component {
 
     render() {
         return (
-            <div className="signup-container">
-                <h1 className="page-title">Sign Up</h1>
+            <div className="signup-container" style={{width:"50%"}}>
+                <h1 style={{textAlign:"center"}} className="page-title">Sign Up</h1>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem 
@@ -97,7 +97,7 @@ class Signup extends Component {
                                 autoComplete="off"
                                 placeholder="Your full name"
                                 value={this.state.name.value} 
-                                onChange={ event => this.handleInputChange(event, this.validateName)} />    
+                                onChange={(event) => this.handleInputChange(event, this.validateName)} />    
                         </FormItem>
                         <FormItem label="Username"
                             hasFeedback
@@ -157,7 +157,6 @@ class Signup extends Component {
     // Validation Functions
 
     validateName = (name) => {
-        console.log(name);
         if(name.length < NAME_MIN_LENGTH) {
             return {
                 validateStatus: 'error',

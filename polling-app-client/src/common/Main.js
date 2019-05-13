@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Layout, Menu, Icon,
+    Layout, Menu, Breadcrumb, Icon,
   } from 'antd';
   
   const { SubMenu } = Menu;

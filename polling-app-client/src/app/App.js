@@ -5,29 +5,28 @@ import {
   withRouter,
   Switch
 } from 'react-router-dom';
+
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import SiderMenu from '../common/SiderMenu';
+import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Option1 from '../option/Option1';
 import Option2 from '../option/Option2';
 import Option3 from '../option/Option3';
-import Option4 from "../option/Option4";
-import Option5 from "../option/Option5";
-import Option6 from "../option/Option6";
-import Option7 from "../option/Option7";
-import Option8 from "../option/Option8";
-
+import Option4 from '../option/Option4';
+import Option5 from '../option/Option5';
+import Option6 from '../option/Option6';
+import Option7 from '../option/Option7';
+import Option8 from '../option/Option8';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
 import { Layout, notification } from 'antd';
-import wall from '../img/minion_2-wallpaper-1680x1050.jpg'
-
 const { Sider, Content, Footer } = Layout;
 
 class App extends Component {
@@ -36,7 +35,8 @@ class App extends Component {
     this.state = {
       currentUser: null,       //유저아이디
       isAuthenticated: false,  //로그인여부
-      isLoading: false         //로딩여부
+      isLoading: false,         //로딩여부
+      page: "center"
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -68,10 +68,11 @@ class App extends Component {
   }
 
   componentWillMount() { //렌더후에
+    console.log('2');
     this.loadCurrentUser();
   }
 
-  handleLogout(redirectTo="/", notificationType="success", description="로그아웃 되셨습니다.") {
+  handleLogout(redirectTo="/", notificationType="success", description="수고하셨습니다.") {
     localStorage.removeItem(ACCESS_TOKEN);
 
     this.setState({
@@ -93,12 +94,21 @@ class App extends Component {
       description: "반갑습니다.",
     });
     this.loadCurrentUser();
-    this.props.history.push("/");
+    this.props.history.push("/Option1");
   }
 
   render() {
     if(this.state.isLoading) {
+      console.log('1');
       return <LoadingIndicator />
+    }
+    let sider;
+    if(this.state.currentUser == null){
+      sider=[]
+    }else{
+      sider=[
+         <Sider className="app-Sider" ><SiderMenu/></Sider>
+      ];
     }
     return (
        <Layout className="app-container">
@@ -109,46 +119,63 @@ class App extends Component {
                     
           <Content className="app-content">
             <Layout>
-            <Sider className="app-Sider" ><SiderMenu/></Sider>
-            <div className="center">
-            <div className="main">
-              <Switch>     
-                <Route exact path="/" >
-                  <img src={wall} width="100%" alt="poll" className="wall" textAlign="center" />
-                </Route>
-                <Route path="/login" 
-                  render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+
+           {sider}
+       
+           <Switch>
+                
+                <Route path="/login"
+                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                 <Route path="/signup" component={Signup}></Route>
+          
+            <div className="center">
+            <div className="main" >
+                   
+            <Switch>
+
+                <PrivateRoute authenticated={this.state.isAuthenticated} exact path="/"  handleLogout={this.handleLogout}
+                component={(props) => <Option1 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
+                
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
-              
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option1"  handleLogout={this.handleLogout}
+                component={(props) => <Option1 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
                 
-                <PrivateRoute  path="/Option1" authenticated={this.state.isAuthenticated} component={(props) => (<Option1 currentUser={this.state.currentUser} {...props}  />)}>
-                 </PrivateRoute>
-
-                <Route path="/Option2" 
-                render={(props) => <Option2 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route>
-               
-                <Route path="/Option3" component={Option3}></Route>
-                 
-                <Route path="/Option4" component={Option4}></Route>
+                {/* 내가 올린 보고서 보기 */}
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option3"  handleLogout={this.handleLogout}
+                component={(props) => <Option3 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
                 
-                <Route path="/Option5" component={Option5}></Route>
+                {/* 업무보고현황 */}
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option4"  handleLogout={this.handleLogout}
+                component={(props) => <Option4 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
+              
+                  {/* 결제관리 */}
+                  <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option5"  handleLogout={this.handleLogout}
+                component={(props) => <Option5 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
 
-                <Route path="/Option6" component={Option6}></Route>
+                {/* 업무 리스트 */}
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option6"  handleLogout={this.handleLogout}
+                component={(props) => <Option6 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
 
-                <Route path="/Option7" component={Option7}></Route>
+                {/* 업무 등록 */}
+                <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option7"  handleLogout={this.handleLogout}
+                component={(props) => <Option7 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
+                
+                 {/* 업무 부여 */}
+                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option8"  handleLogout={this.handleLogout}
+                component={(props) => <Option8 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></PrivateRoute>
 
-                <Route path="/Option8" component={Option8}></Route>
-               
-                <Route component={NotFound}></Route>
-
-               
-              </Switch>
-            </div>
-            </div>
+                {/* <Route path="/Option1" 
+                render={(props) => <Option1 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route> */}
+                <Route path="/Option2" component={Option2}></Route>
+                
+                 <Route component={NotFound}></Route>
+                </Switch>
+                </div>
+                </div>
+                </Switch>
             </Layout>
             <Footer style={{ textAlign: 'center' }}>
             Design ©2019 Created by SungJun

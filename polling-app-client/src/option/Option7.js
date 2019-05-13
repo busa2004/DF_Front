@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
-import Option7DatePick from './Option7DatePick';
-import Option7Button from './Option7Button';
-import Option7Table from './Option7Table';
-
-
-
+import TextEdit from './TextEdit';
+import {Card} from 'antd';
+import './edit.css'
 
 class Option7 extends Component {
     render() {
         return (
-            <div className="Option7">
-                <h1>평가순위</h1>
-                <div  style={{display:"flex", flexDirection: "row",marginBottom:"60px",width:"100%"}}>
-                <Option7DatePick/>
-                <Option7Button/>
+                <Card title='업무등록'> 
+                <div className="edit">
+                <TextEdit router={'task'}/>
                 </div>
-                <Option7Table/>
-                </div>
+                </Card>
         );
     }
 }

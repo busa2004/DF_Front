@@ -2,22 +2,20 @@ import { Input } from 'antd';
 import React, { Component } from 'react';
 const Search = Input.Search;
 
-class SerachForm extends Component {
+class SearchForm extends Component {
     
     render() {
        
         return (
-            <div>
-                
+            <div style={{width:"90%",marginLeft:"10px"}}>
                 <Search
                     placeholder="input search text"
                     onSearch={value =>  this.props.search(value)}
-                    
-                    enterButton
+                    defaultValue={this.props.value}
                 />
                
             </div>
         );
     }
 }
-export default SerachForm;
+export default SearchForm;

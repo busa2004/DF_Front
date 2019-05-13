@@ -1,5 +1,5 @@
 import { API_BASE_URL, POLL_LIST_SIZE, ACCESS_TOKEN } from '../constants';
-
+import axios from 'axios';
 const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
@@ -32,6 +32,13 @@ export function getAllPolls(page, size) {
         method: 'GET'
     });
 }
+
+
+
+
+
+
+
 
 export function createPoll(pollData) {
     return request({
@@ -118,7 +125,9 @@ export function getUserVotedPolls(username, page, size) {
     });
 }
 
+
 export function getUserTask() {
+
 
     return request({
         url: API_BASE_URL + "/usertask/all",
@@ -126,10 +135,153 @@ export function getUserTask() {
     });
 }
 
-export function getUserCalendar(username) {
+export function getReport(data) {
+    console.log(data)
+    return request({
+        url: API_BASE_URL + "/report/all",
+        method: 'POST',
+        body: JSON.stringify(data)
+    });
+}
+
+export function createTask(task) {
+    return request({
+        url: API_BASE_URL + "/task/create",
+        method: 'POST',
+        body: JSON.stringify(task)         
+    });
+}
+export function createReport(report) {
+    return request({
+        url: API_BASE_URL + "/report/create",
+        method: 'POST',
+        body: JSON.stringify(report)         
+    });
+}
+export function getTask() {
 
     return request({
-        url: 'http://218.39.221.79:8080/api/task/nopage',
+        url: API_BASE_URL + "/task/all",
+        method: 'GET'
+        
+    });
+}
+export function getSelectTask(data) {
+
+    return request({
+        url: API_BASE_URL + "/task/select",
+        method: 'POST',
+        body: JSON.stringify(data)
+    });
+}
+export function getUser() {
+
+    return request({
+        url: API_BASE_URL + "/user/all",
+        method: 'GET'
+        
+    });
+}
+
+export function createUserTask(userTask) {
+    return request({
+        url: API_BASE_URL + "/usertask/create",
+        method: 'POST',
+        body: JSON.stringify(userTask)         
+    });
+}
+
+export function deleteUserTask(userTask) {
+    return request({
+        url: API_BASE_URL + "/usertask/delete",
+        method: 'POST',
+        body: JSON.stringify(userTask)         
+    });
+}
+
+export function getUserCalendar() {
+
+    return request({
+        url: API_BASE_URL+'/usertask',
         method: 'GET'
     });
 }
+
+export function getAllReport(body) {
+    return request({
+        url: API_BASE_URL + '/report/al',
+        method: 'POST',
+        body: JSON.stringify(body)    
+    });
+}
+
+export function getAllTask(body) {
+
+    return request({
+        url: API_BASE_URL + "/task/all",
+        method: 'POST',
+        body: JSON.stringify(body)  
+    });
+}
+
+export function changePassword(body) {
+
+    return request({
+        url: API_BASE_URL + "/user/changePassword",
+        method: 'POST',
+        body: JSON.stringify(body)  
+    });
+}
+
+export function ReportConverter(body) {
+
+    return request({
+        url: API_BASE_URL + "/report/update",
+        method: 'POST',
+        body: JSON.stringify(body)  
+    });
+}
+
+export function deleteTask(id) {
+
+    return request({
+        url: API_BASE_URL + "/task/delete?id="+id,
+        method: 'GET',
+    });
+}
+
+export function deleteReport(id) {
+
+    return request({
+        url: API_BASE_URL + "/report/delete?id="+id,
+        method: 'GET',
+    });
+}
+export function r(body) {
+    console.log(body)
+}
+
+class Service {
+
+  constructor() {
+    console.log("Service is constructed");
+  }
+
+  getRestClient() {
+    if (!this.serviceInstance) {
+      this.serviceInstance = axios.create({
+        baseURL: 'http://218.39.221.79:8080/api',
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+          },
+      });
+    }
+
+    
+    return this.serviceInstance;
+  }
+}
+
+export default (new Service());

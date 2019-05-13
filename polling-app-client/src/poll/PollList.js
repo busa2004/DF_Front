@@ -27,13 +27,13 @@ class PollList extends Component {
 
     loadPollList(page = 0, size = POLL_LIST_SIZE) {
         let promise;
-
         if(this.props.username) {
             if(this.props.type === 'USER_CREATED_POLLS') {
                 promise = getUserCreatedPolls(this.props.username, page, size);
             } else if (this.props.type === 'USER_VOTED_POLLS') {
                 promise = getUserVotedPolls(this.props.username, page, size);                               
             }
+            
         } else {
             promise = getAllPolls(page, size);
         }
@@ -50,8 +50,6 @@ class PollList extends Component {
         .then(response => {
             const polls = this.state.polls.slice();
             const currentVotes = this.state.currentVotes.slice();
-            console.log('polls'+polls);
-            console.log('hdhdh'+polls.concat(response.content));
 
             this.setState({
                 polls: polls.concat(response.content),
@@ -154,7 +152,7 @@ class PollList extends Component {
                 handleVoteChange={(event) => this.handleVoteChange(event, pollIndex)}
                 handleVoteSubmit={(event) => this.handleVoteSubmit(event, pollIndex)} />)            
         });
-        console.log('d'+pollViews)
+
         return (
             <div className="polls-container">
                 {pollViews}
@@ -174,7 +172,8 @@ class PollList extends Component {
                         </div>): null
                 }              
                 {
-                    this.state.isLoading ? <LoadingIndicator />: null           
+                    this.state.isLoading ? 
+                    <LoadingIndicator />: null                     
                 }
             </div>
         );

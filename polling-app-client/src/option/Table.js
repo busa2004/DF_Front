@@ -51,16 +51,16 @@ class Option1Table extends Component {
       }
       
       for(let i=0;i<datas.length;i++){
-        if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].createdAt).format('YYYY-MM-DD')) {
+        if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].startDate).format('YYYY-MM-DD')) {
           
-          if(moment(this.props.data[i].createdAt).format('YYYY-MM-DD')===moment(this.props.data[i].updatedAt).format('YYYY-MM-DD')){
+          if(moment(this.props.data[i].startDate).format('YYYY-MM-DD')===moment(this.props.data[i].endDate).format('YYYY-MM-DD')){
             this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'마감day'}); 
             this.state.cnt++;
           }else{
-            this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'등록day'}); 
+            this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'시작day'}); 
             this.state.cnt++
           }
-        }else if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].updatedAt).format('YYYY-MM-DD')){
+        }else if(this.props.time.format('YYYY-MM-DD')===moment(this.props.data[i].endDate).format('YYYY-MM-DD')){
           this.state.data.push({title:this.props.data[i].title, content: this.props.data[i].content, state:'마감day'}); 
           this.state.cnt++
         }

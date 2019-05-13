@@ -1,31 +1,109 @@
 import React, { Component } from 'react';
-import Option4table from './Option4table';
+import Report from './Report';
 import {
-    Input
- } from 'antd';
-import Option4DatePick from './Option4DatePicker';
-import Option4Search from './Option4Search';
-import Option4Input from './Option4Input';
-
- const InputGroup = Input.Group;
-
+    Table, Input, Button, Icon,
+  } from 'antd';
+  import Highlighter from 'react-highlight-words';
+  import {Card} from 'antd';
 class Option4 extends Component {
-    state = { 
-        title: '결제',
-            }
-    render() {
-        return (
-            <div className="Option4">
-                <h1>업무보고현황</h1>
-                <Option4DatePick/>
-                
-                <div style={{display:"flex", flexDirection: "row",marginTop:"10px",marginBottom:"10px"}}>
-                <Option4Input/>
-                <Option4Search/>
-                </div>
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchText: '',
+            columns : [{
+                title: 'title',
+                dataIndex: 'title',
+                key: 'title',
+                ...this.getColumnSearchProps('title')
+              
+              },  {
+                title: 'taskTitle',
+                dataIndex: 'taskTitle',
+                key: 'taskTitle',
+                ...this.getColumnSearchProps('taskTitle')
+              },  {
+                title: 'userName',
+                dataIndex: 'userName',
+                key: 'userName',
+                ...this.getColumnSearchProps('userName')
+              },{
+                title: 'createdAt',
+                dataIndex: 'createdAt',
+                key: 'createdAt',
+                ...this.getColumnSearchProps('createdAt')
+              }]
+        }
+      
+    }
+    
+    getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({
+          setSelectedKeys, selectedKeys, confirm, clearFilters,
+        }) => (
+          <div style={{ padding: 8 }}>
+            <Input
+              ref={node => { this.searchInput = node; }}
+              placeholder={`Search ${dataIndex}`}
+              value={selectedKeys[0]}
+              onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+              onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+              style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Button
+              type="primary"
+              onClick={() => this.handleSearch(selectedKeys, confirm)}
+              icon="search"
+              size="small"
+              style={{ width: 90, marginRight: 8 }}
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => this.handleReset(clearFilters)}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+          </div>
+        ),
+        filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
+        onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: (visible) => {
+          if (visible) {
+            setTimeout(() => this.searchInput.select());
+          }
+        },
+        render: (text) => (
+          <Highlighter
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            searchWords={[this.state.searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />
+        ),
+      })
+    
+      handleSearch = (selectedKeys, confirm) => {
+        confirm();
+        this.setState({ searchText: selectedKeys[0] });
+      }
+    
+      handleReset = (clearFilters) => {
+        clearFilters();
+        this.setState({ searchText: '' });
+      }
 
-                <Option4table title={this.state.title} />
-                </div>
+
+    
+    render() {
+       
+        return (
+            <div>
+              <Card title='업무보고현황'>
+                <Report title={'업무보고현황'} buttonTitle={'결제'} status={'WAIT'} route={'report'} columns={this.state.columns}/>
+                </Card>
+            </div>
         );
     }
 }

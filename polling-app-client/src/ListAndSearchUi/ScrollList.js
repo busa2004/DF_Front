@@ -8,14 +8,15 @@ import {
   import { Input } from 'antd';
   import SelectList from '../ListAndSearchUi/SelectList';
   import { Modal, Button } from 'antd';
+  import {BASE_URL, API_BASE_URL} from '../constants/index'
 const Search = Input.Search;
-  const fakeDataUrl = 'http://localhost:8080/api/user/all';
+  const fakeDataUrl = API_BASE_URL+'/user/all';
   
   class InfiniteListExample extends Component {
 
     constructor(props) {
         super(props);
-      
+        
         this.onClick = this.onClick.bind(this);
        
        
@@ -24,11 +25,12 @@ const Search = Input.Search;
     
       
     state = {
+     
       data: [],
       loading: false,
       hasMore: true,
-      size: 'large'
-
+      size: 'large',
+      search:this.props.search
     }
     
     onClick(id){
@@ -36,22 +38,32 @@ const Search = Input.Search;
         console.log('lu')
     }
     componentDidMount() {
+      this.load();
+    }
+  
+    searchUser= (data) =>{
+      this.state.search = data
+      this.load();
+      
+    }
+
+    load(){
       this.fetchData((res) => {
         this.setState({
           data: res,
         });
       });
     }
-  
+
+
     fetchData = (callback) => {
       reqwest({
-        url: fakeDataUrl,
+        url: fakeDataUrl+'?search='+this.state.search,
         type: 'json',
         method: 'get',
         contentType: 'application/json',
         success: (res) => {
           callback(res);
-          console.log(res)
           
         },
       });
@@ -81,7 +93,7 @@ const Search = Input.Search;
     onClick= (e) => {
         
         
-      this.props.clickButton(e.target.value);
+      this.props.clickButton(e.target.value,this.state.search);
      }
     render() {
         const size = this.state.size;
@@ -91,8 +103,9 @@ const Search = Input.Search;
                  
                   <br /><br />
                   <Search
+                     defaultValue={this.state.search}
                       placeholder="input search text"
-                      onSearch={value => console.log(value)}
+                      onSearch={value => this.searchUser(value)}
                       enterButton
                   />
                   <br /><br />
@@ -118,7 +131,7 @@ const Search = Input.Search;
               renderItem={item => (
                 <List.Item key={item.id}>
                   <List.Item.Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    avatar={<Avatar icon="user" size={80} src={BASE_URL+"test/"+item.profile} />}
                     title={<a href="https://ant.design">{item.name}</a>}
                     description={item.email}
                   />

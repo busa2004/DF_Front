@@ -11,6 +11,7 @@ class Option1Calendar extends Component {
     this.state = {
         cal: this.props.calendar,
         selectedValue: moment(),
+        
     }
     this.getListData = this.getListData.bind(this);
     this.dateCellRender = this.dateCellRender.bind(this);
@@ -20,13 +21,14 @@ class Option1Calendar extends Component {
 
    getListData(value) {
     let listData = [];
+    let key = 0;
    for(let i=0;i<this.state.cal.length;i++){
-    let year = parseInt(moment(this.state.cal[i].createdAt).format('YYYY'),10);
-    let endyear = parseInt(moment(this.state.cal[i].updatedAt).format('YYYY'),10);
-    let month = parseInt(moment(this.state.cal[i].createdAt).format('MM'),10)-1;
-    let endmonth = parseInt(moment(this.state.cal[i].updatedAt).format('MM'),10)-1;
-    let date = parseInt(moment(this.state.cal[i].createdAt).format('DD'),10);
-    let enddate = parseInt(moment(this.state.cal[i].updatedAt).format('DD'),10) ;
+    let year = parseInt(moment(this.state.cal[i].startDate).format('YYYY'),10);
+    let endyear = parseInt(moment(this.state.cal[i].endDate).format('YYYY'),10);
+    let month = parseInt(moment(this.state.cal[i].startDate).format('MM'),10)-1;
+    let endmonth = parseInt(moment(this.state.cal[i].endDate).format('MM'),10)-1;
+    let date = parseInt(moment(this.state.cal[i].startDate).format('DD'),10);
+    let enddate = parseInt(moment(this.state.cal[i].endDate).format('DD'),10) ;
 
     switch(value.year()){
              case year :
@@ -34,7 +36,10 @@ class Option1Calendar extends Component {
                     case month:
                        switch (value.date()) {
                            case date:
-                             listData.push({year: year, month: month+1, date: date, type: 'success', content: this.state.cal[i].title }); 
+                             listData.push({year: year, month: month+1, date: date, type: 'success', content: this.state.cal[i].title
+                            ,key:  key}); 
+                            key++;
+                            console.log('--'+key)
                               break;
                               default:
                             }
@@ -45,7 +50,10 @@ class Option1Calendar extends Component {
                    case endmonth:
                      switch (value.date()) {
                        case enddate:
-                         listData.push({endyear: endyear, endmonth: endmonth+1, enddate: enddate, type: 'error', content: this.state.cal[i].title+'마감' }); 
+                         listData.push({endyear: endyear, endmonth: endmonth+1, enddate: enddate, type: 'error', content: this.state.cal[i].title+'마감'
+                        ,key:key });
+                        key++; 
+                        console.log('--'+key)
                          break;
                        default:
                       }
@@ -63,7 +71,7 @@ class Option1Calendar extends Component {
       <ul className="events">
         {
           listData.map(item => (
-            <li key={item.content}>
+            <li key={item.key}>
               <Badge status={item.type} text={item.content} />
             </li>
           ))
@@ -102,7 +110,7 @@ class Option1Calendar extends Component {
           <div>
             <Calendar dateCellRender={this.dateCellRender} monthCellRender={this.monthCellRender} onSelect={this.onSelect} onPanelChange={this.onPanelChange} />
             <Alert message={`${this.state.selectedValue && this.state.selectedValue.format('YYYY-MM-DD')} 업무`} />
-            <Option1Table data={this.props.calendar} time={this.state.selectedValue} />    
+            <Option1Table  data={this.props.calendar} time={this.state.selectedValue} />    
             </div>
         );
     }
