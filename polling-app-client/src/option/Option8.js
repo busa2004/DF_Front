@@ -1,10 +1,9 @@
-import TabForm from '../ListAndSearchUi/userTaskTab';
 import { Table, Divider, Tag } from 'antd';
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
-import InfiniteListExample from '../ListAndSearchUi/ScrollList';
+import InfiniteListExample from '../Component/ListComponent/ScrollList';
 import { r} from '../util/APIUtils';
-import SelectList from '../ListAndSearchUi/SelectList';
+import SelectList from '../Component/ListComponent/SelectList';
 import { getSelectTask,createUserTask,deleteUserTask } from '../util/APIUtils';
 import LoadingIndicator from '../common/LoadingIndicator';
 import ServerError from '../common/ServerError';

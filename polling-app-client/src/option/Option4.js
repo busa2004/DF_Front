@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Report from './Report';
+import Report from '../Component/ListComponent/Report';
 import {
     Table, Input, Button, Icon,
   } from 'antd';
