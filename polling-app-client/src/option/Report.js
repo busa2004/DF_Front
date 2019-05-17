@@ -155,7 +155,8 @@ class Report extends Component {
        if(this.state.route == 'report'){
            this.setState({
             columns:this.props.columns.concat( {
-                title: 'action',
+              align: "center",
+                title: '결제',
                 key: 'id',
                 render: (record,columns) => (
                   
@@ -203,8 +204,6 @@ class Report extends Component {
                 searchValue={this.state.value.search}
                 search={this.search}/>
                 </div>
-
-
 
                 <Option4table
                 route = {this.state.route} 

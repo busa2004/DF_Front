@@ -11,7 +11,9 @@ import ServerError from '../common/ServerError';
 import NotFound from '../common/NotFound';
 import { Modal, Button } from 'antd';
 import {Card} from 'antd';
-class Option8 extends Component {
+import AdminUserList from '../ListAndSearchUi/AdminUserList';
+import AdminUserSelectList from '../ListAndSearchUi/AdminUserSelectList';
+class Option12 extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,10 +36,8 @@ class Option8 extends Component {
         
     }
 
-  deleteUserTaskButton = (record) => { 
-     
+    deleteUserTaskButton = (record) => { 
   }
- 
   searchTask = (data) =>{
     let search ={};
     this.setState({
@@ -47,8 +47,7 @@ class Option8 extends Component {
     search.userId = this.state.userId;
     this.loadTask(search)
   }
-  
-  clickButton = (data,search) => {
+    clickButton = (data,search) => {
         let userId={userId:data}
         this.loadTask(userId)
         this.setState({
@@ -57,7 +56,7 @@ class Option8 extends Component {
         })
        
     }
-  createAndDeleteButton = (data,order,time) => {
+    createAndDeleteButton = (data,order,time) => {
       // 여기까지 했음 
       //  this.createUserTask(data) 이거 구현
     
@@ -81,11 +80,11 @@ class Option8 extends Component {
       }
     }
 
-  a=()=>{
+    a=()=>{
       r(this.state.dataSource)
     }
 
-  loadTask(data) {
+    loadTask(data) {
         this.setState({
             isLoading: true
         });
@@ -115,7 +114,7 @@ class Option8 extends Component {
         });        
       }
 
-   loadCreateUserTask(data) {
+      loadCreateUserTask(data) {
         this.setState({
             isLoading: true
           
@@ -145,7 +144,7 @@ class Option8 extends Component {
         });        
       }
 
-     loadDeleteUserTask(data) {
+      loadDeleteUserTask(data) {
         this.setState({
             isLoading: true
           
@@ -194,13 +193,12 @@ class Option8 extends Component {
             <div>
 
                 <div>
-                <Card title='업무부여' headStyle={{backgroundColor:"#00B1B6",color:"#FBFBFB",fontWeight:"bold"}}>
+                <Card title='회원정보수정' headStyle={{backgroundColor:"#00B1B6",color:"#FBFBFB",fontWeight:"bold"}}>
                     <Row>
-                        <Col span={11}><InfiniteListExample  
+                        <Col span={10}><AdminUserList 
                         search ={this.state.search}
                         clickButton={this.clickButton} /></Col>
-                        <Col span={2}></Col>
-                         <Col span={11}><SelectList searchTask={this.searchTask} tasks={this.state.tasks}
+                         <Col span={14}><AdminUserSelectList searchTask={this.searchTask} tasks={this.state.tasks}
                          createAndDeleteButton={this.createAndDeleteButton}
                          userId={this.state.userId}
                          taskSearch={this.state.taskSearch}/></Col> 
@@ -215,4 +213,4 @@ class Option8 extends Component {
         );
     }
 }
-export default Option8;
+export default Option12;

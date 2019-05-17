@@ -75,7 +75,6 @@ const Search = Input.Search;
         loading: true,
       });
       if (data.length > 3) {
-        message.warning('Infinite List loaded all');
         this.setState({
           hasMore: false,
           loading: false,
@@ -137,6 +136,7 @@ const Search = Input.Search;
                   />
                   
                       <div> <Button value={item.id} onClick={this.onClick}>등록하기</Button></div>
+                      
                 </List.Item>
               )}
             >

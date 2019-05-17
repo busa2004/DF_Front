@@ -21,7 +21,7 @@ import {
 
 
     render() {
-      return <Table columns={this.state.columns} dataSource={this.state.data} />;
+      return <Table  columns={this.state.columns} dataSource={this.state.data} />;
     }
   }
 

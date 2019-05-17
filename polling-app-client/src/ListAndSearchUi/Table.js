@@ -10,10 +10,12 @@ class DatePickers extends Component {
     this.state = {
         reports: this.props.reports,
         columns : [{
+          align:'center',
           title: '제목',
           dataIndex: 'title',
           key: 'title',
         }, {
+          align:'center',
           title: '작성일자',
           dataIndex: 'date',
           key: 'date',
@@ -28,15 +30,17 @@ class DatePickers extends Component {
                          }</div>
           }
         },{
+          align:'center',
           title: '상태',
           dataIndex: 'status',
           key: 'status',
         } , {
+          align:'center',
           title: '보고서 보기',
           key: 'description',
           dataIndex: 'description',
           render: (text, row, index) => (
-           <ModalTest data={row}/>          
+            <ModalTest hold={this.props.hold} data={row} modify={this.props.modify} modifyConfirm={this.props.modifyConfirm} />          
            ),
         }],
         
@@ -60,7 +64,7 @@ class DatePickers extends Component {
 
     return (<div>
      
-      <Table columns={this.state.columns} dataSource={this.state.reports} />
+      <Table  columns={this.state.columns} dataSource={this.state.reports} />
       </div>
     );
   }

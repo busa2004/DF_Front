@@ -3,8 +3,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-}
 
+}
 .container {
   max-width: 100%;
   margin-left: auto;
@@ -12,7 +12,6 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 .center{
   width : 65%;
   text-align: center;

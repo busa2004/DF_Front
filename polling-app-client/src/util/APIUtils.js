@@ -207,6 +207,14 @@ export function getUserCalendar() {
     });
 }
 
+export function getUserTaskDate() {
+
+    return request({
+        url: API_BASE_URL+'/usertask/date',
+        method: 'GET'
+    });
+}
+
 export function getAllReport(body) {
     return request({
         url: API_BASE_URL + '/report/al',
@@ -214,6 +222,18 @@ export function getAllReport(body) {
         body: JSON.stringify(body)    
     });
 }
+
+
+export function modifyReport(content,id) {
+    let modify = {content:content, id:id}
+    return request({
+        url: API_BASE_URL + '/report/modify',
+        method: 'POST',
+        body: JSON.stringify(modify)    
+        
+    });
+}
+
 
 export function getAllTask(body) {
 
@@ -260,6 +280,14 @@ export function deleteReport(id) {
 export function r(body) {
     console.log(body)
 }
+export function getRestClient(body) {
+
+    return request({
+        url: API_BASE_URL + "/uploadFile",
+        method: 'POST',
+        body: JSON.stringify(body)
+    });
+}
 
 class Service {
 
@@ -267,14 +295,21 @@ class Service {
     console.log("Service is constructed");
   }
 
-  getRestClient() {
+  getRestClient = () =>{
+
+    
+
+
+    let a;
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        a =  localStorage.getItem(ACCESS_TOKEN)
+    }  
     if (!this.serviceInstance) {
       this.serviceInstance = axios.create({
         baseURL: 'http://218.39.221.79:8080/api',
-        timeout: 10000,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+            'Authorization': 'Bearer ' + a
           },
       });
     }
@@ -285,3 +320,4 @@ class Service {
 }
 
 export default (new Service());
+

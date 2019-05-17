@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Tap from './Tap';
-import { getReport,deleteReport } from '../util/APIUtils';
+import { getReport,deleteReport,modifyReport } from '../util/APIUtils';
 import  DatePickers from '../ListAndSearchUi/DatePickers';
 import  SerachForm from '../ListAndSearchUi/SearchForm';
 import  TabForm from '../ListAndSearchUi/TabForm';
@@ -24,6 +24,7 @@ class Option3 extends Component {
             to:d.getFullYear()+'-'+(d.getMonth()+1)+'-'+(d.getDate()+1),
             search:'',
             columns: {
+                align:'center',
                 title: '삭제',
                 dataIndex: 'id',
                 key: 'id',
@@ -50,6 +51,33 @@ class Option3 extends Component {
         });
       
         deleteReport(id)
+        .then(response => {
+            this.setState({
+              ok: response,
+                isLoading: false
+            
+              });
+              this.loadReport({search:this.state.search,from:this.state.from,to:this.state.to});
+        }).catch(error => {
+            if(error.status === 404) {
+                this.setState({
+                    notFound: true,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    serverError: true,
+                    isLoading: false
+                });        
+            }
+        });        
+      }
+      loadModify(content,id) {
+        this.setState({
+            isLoading: true
+        });
+      
+        modifyReport(content,id)
         .then(response => {
             this.setState({
               ok: response,
@@ -104,7 +132,10 @@ class Option3 extends Component {
      this.loadReport({search:this.state.search,from:this.state.from,to:this.state.to});
     }
     
-   
+    modifyConfirm=(content,id)=>{
+      this.loadModify(content,id)
+
+   }
     
     
     // _renderUserTask = () => {
@@ -166,8 +197,8 @@ class Option3 extends Component {
             <div>
                
                 <div>
-                <Card headStyle={{backgroundColor:"#597DCF",color:"#FFFFFF",fontWeight:"bold"}}
-                bodyStyle={{backgroundColor:"#FBFBFB"}} title='보고서관리'>
+                <Card headStyle={{backgroundColor:"#00B1B6",color:"#FBFBFB",fontWeight:"bold"}}
+                bodyStyle={{backgroundColor:"16448250"}} title='보고서관리'>
                 <InputGroup compact>
                 <div style={{display:"flex", flexDirection: "row"}}>
                 <DatePickers dateSearch={this.dateSearch} to={this.state.to} from={this.state.from} />
@@ -175,7 +206,7 @@ class Option3 extends Component {
 
                 </InputGroup>
                      <Row>
-                         <Col span={24}><TabForm reports={this.state.reports} columns={this.state.columns}/></Col>
+                         <Col span={24}><TabForm modifyConfirm={this.modifyConfirm} reports={this.state.reports} columns={this.state.columns}/></Col>
                      </Row>
                 </Card>
                  </div>

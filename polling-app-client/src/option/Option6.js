@@ -13,13 +13,15 @@ class Option6 extends Component {
         this.state = {
             searchText: '',
             columns : [{
-                title: 'title',
+                align: "center",
+                title: '제목',
                 dataIndex: 'title',
                 key: 'title',
                 ...this.getColumnSearchProps('title')
               
               }, {
-                title: 'content',
+                align: "center",
+                title: '내용',
                 dataIndex: 'content',
                 key: 'content',
                
@@ -29,7 +31,8 @@ class Option6 extends Component {
                   return  <div dangerouslySetInnerHTML={ {__html: text} }></div>
                 }
               },{
-                title: 'createdAt',
+                align: "center",
+                title: '날짜',
                 dataIndex: 'createdAt',
                 key: 'createdAt',
                 ...this.getColumnSearchProps('createdAt'),
@@ -37,11 +40,7 @@ class Option6 extends Component {
                   let date = new Date(text);
                   return <div>{date.getFullYear()+"-"+
                               (date.getMonth()+1)+"-"+
-                              date.getDate()}<br/>{
-                              date.getHours()+":"+
-                              date.getMinutes()+":"+
-                              date.getSeconds()
-                               }</div>
+                              date.getDate()}</div>
                 }
               }]
         }
@@ -110,7 +109,7 @@ class Option6 extends Component {
        
         return (
             <div>
-            <Card title='업무리스트'> 
+            <Card title='업무리스트' headStyle={{backgroundColor:"#00B1B6",color:"#FBFBFB",fontWeight:"bold"}}> 
                <Report title={'업무리스트'}  status={'PROGRESS'} route={'task'}
                columns={this.state.columns}/>
             </Card>

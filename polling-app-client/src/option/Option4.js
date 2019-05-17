@@ -11,23 +11,27 @@ class Option4 extends Component {
         this.state = {
             searchText: '',
             columns : [{
-                title: 'title',
+                align: "center",
+                title: '제목',
                 dataIndex: 'title',
                 key: 'title',
                 ...this.getColumnSearchProps('title')
               
               },  {
-                title: 'taskTitle',
+                align: "center",
+                title: '업무',
                 dataIndex: 'taskTitle',
                 key: 'taskTitle',
                 ...this.getColumnSearchProps('taskTitle')
               },  {
-                title: 'userName',
+                align: "center",
+                title: '이름',
                 dataIndex: 'userName',
                 key: 'userName',
                 ...this.getColumnSearchProps('userName')
               },{
-                title: 'createdAt',
+                align: "center",
+                title: '날짜',
                 dataIndex: 'createdAt',
                 key: 'createdAt',
                 ...this.getColumnSearchProps('createdAt')
@@ -100,7 +104,7 @@ class Option4 extends Component {
        
         return (
             <div>
-              <Card title='업무보고현황'>
+              <Card title='업무보고현황' headStyle={{backgroundColor:"#00B1B6",color:"#FBFBFB",fontWeight:"bold"}}>
                 <Report title={'업무보고현황'} buttonTitle={'결제'} status={'WAIT'} route={'report'} columns={this.state.columns}/>
                 </Card>
             </div>
