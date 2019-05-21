@@ -99,7 +99,7 @@ class TabForm extends Component {
         return (
             <div>
 
-                <Button onClick={this.showModal}>
+                <Button className="showButton" style={{borderColor:"#029EA6", color:"#029EA6"}} onClick={this.showModal}>
                     보고서 보기
                 </Button>
                 <Modal

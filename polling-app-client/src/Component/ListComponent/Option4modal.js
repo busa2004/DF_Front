@@ -56,7 +56,7 @@ class Option4modal extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.showModal}>
+        <Button style={{borderColor:"#029EA6",color:"#029EA6"}} onClick={this.showModal}>
           {this.props.title}
         </Button>
         <Modal
