@@ -57,7 +57,7 @@ class VersionAdd extends Component {
             }
         });
     }
-    handleOk = async (event) => {
+    handleOk  = async (event) => {
         event.preventDefault();
 
         const versionValue = {
