@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
     Upload, message, Button, Icon,
   } from 'antd';
-  
-
+  import {API_BASE_URL} from '../../constants/index'
+ 
   class Uploader extends Component {
     constructor(props){
       super(props);
@@ -14,9 +14,10 @@ import {
      config = {
     
       name: 'file',
-      action: 'http://218.39.221.101:8080/df/api/files',
+      action: API_BASE_URL+'/files',
       headers: {
         authorization: 'authorization-text',
+        "Accept-Charset":'UTF-8'
       },
       onChange(info) {
         if (info.file.status !== 'uploading') {

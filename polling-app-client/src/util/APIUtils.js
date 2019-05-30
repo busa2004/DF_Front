@@ -11,7 +11,7 @@ const request = (options) => {
 
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options); //Object.assign 병합하기 (타겟변수,값1,값2)
-    
+     
     return fetch(options.url, options)  // header url method 설정후 fetch
     .then(response =>  //받은값을 json으로 바꾸고
         response.json().then(json => {
@@ -22,6 +22,8 @@ const request = (options) => {
         })
     );
 };
+
+
 
 export function getAllPolls(page, size) {
     page = page || 0;
@@ -63,7 +65,13 @@ export function login(loginRequest) {
         body: JSON.stringify(loginRequest)
     });
 }
-
+export function createSlack(value){
+    return request({
+        url : API_BASE_URL+"/user/slack/update",
+        method:'POST',
+        body:JSON.stringify(value)
+    })
+}
 export function signup(signupRequest) {
     return request({
         url: API_BASE_URL + "/auth/signup",
@@ -106,6 +114,12 @@ export function getCurrentUser() {
 export function getOtherUserProfile(userId) {
     return request({
         url: API_BASE_URL + "/user/profile?userId=" + userId,
+        method: 'GET'
+    });
+}
+export function sendByReport(reportId) {
+    return request({
+        url: API_BASE_URL + "/report/slack?reportId=" + reportId,
         method: 'GET'
     });
 }
@@ -345,6 +359,14 @@ export function getAllEvalVersion() {
         method: 'GET'
     });
 }
+
+// version Name으로 version JSON 가져오기
+export function getVersionObj(selectedVersion) {
+    return request({
+        url: API_BASE_URL + '/eval/getVersionObj?selectedVersion=' + selectedVersion,
+        method: 'GET'
+    });
+}
 export function getEvalItemByVersion(version) {
 
     return request({
@@ -352,6 +374,84 @@ export function getEvalItemByVersion(version) {
         method: 'GET'
     });
 }
+
+export function setEvalScore(evalScore) {
+    return request({
+        url: API_BASE_URL + '/eval/setEval',
+        method: 'POST',
+        body: JSON.stringify(evalScore)
+    });
+}
+
+export function updateEvalScore(evalScore) {
+    return request({
+        url: API_BASE_URL + '/eval/updateEval',
+        method: 'POST',
+        body: JSON.stringify(evalScore)
+    });
+}
+
+export function searchEval(taskId) {
+    return request ({
+        url: API_BASE_URL + '/eval/searchEval?taskId='+taskId,
+        method: 'GET'
+    })
+}
+
+export function rank(tasks) {
+    return request({
+        url: API_BASE_URL + '/eval/rank',
+        method: 'POST',
+        body: JSON.stringify(tasks)
+    })
+}
+
+export function isExistUserInEval(taskIds) {
+    return request({
+        url: API_BASE_URL + '/eval/isExistUserInEval',
+        method: 'POST',
+        body: JSON.stringify(taskIds)
+    })
+}
+
+export function getScoreByReport(taskId) {
+    return request({
+        url: API_BASE_URL + '/eval/getScoreByReport?taskId='+taskId,
+        methd: 'GET'
+    })
+}
+
+export function searchYear() {
+    return request({
+        url: API_BASE_URL + '/eval/searchYear',
+        method: 'GET'
+    })
+}
+
+export function scoreRank(param) {
+    return request({
+        url: API_BASE_URL + '/eval/scoreRank',
+        method: 'POST',
+        body: JSON.stringify(param)
+    })
+}
+
+export function monthNYearRank(param) {
+    return request({
+        url: API_BASE_URL + '/eval/monthNYearRank',
+        method: 'POST',
+        body: JSON.stringify(param)
+    })
+}
+
+export function quarterNHalfRank(param) {
+    return request({
+        url: API_BASE_URL + '/eval/quarterNHalfRank',
+        method: 'POST',
+        body: JSON.stringify(param)
+    })
+}
+
 class Service {
 
   constructor() {
@@ -369,7 +469,7 @@ class Service {
     }  
     if (!this.serviceInstance) {
       this.serviceInstance = axios.create({
-        baseURL: 'http://218.39.221.101:8080/df/api',
+        baseURL: API_BASE_URL,
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + a

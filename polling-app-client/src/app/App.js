@@ -9,7 +9,6 @@ import {
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import SiderMenu from '../common/SiderMenu';
-import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Option1 from '../option/Option1';
@@ -21,6 +20,7 @@ import Option6 from '../option/Option6';
 import Option7 from '../option/Option7';
 import Option8 from '../option/Option8';
 import Option12 from '../option/Option12';
+import EvalRank from '../eval/EvalRank';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
@@ -149,7 +149,11 @@ class App extends Component {
         {/* 평가 */}
         <PrivateRoute authenticated={this.state.isAuthenticated} path="/Eval" handleLogout={this.handleLogout}
           component={(props) => <Eval isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></PrivateRoute>
-
+        
+        {/* 평가 순위*/}
+        <PrivateRoute authenticated={this.state.isAuthenticated} path="/EvalRank" handleLogout={this.handleLogout}
+          component={(props) => <EvalRank isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></PrivateRoute>        
+       
         {/* 평가항목관리 */}
         <PrivateRoute authenticated={this.state.isAuthenticated} path="/ManageEvalItem" handleLogout={this.handleLogout}
           component={(props) => <ManageEvalItem isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></PrivateRoute>
@@ -171,10 +175,13 @@ class App extends Component {
             {sider}
 
             <Switch>
-
+            <Route path="/signup"
+                render={(props) => <Signup onLogin={this.handleLogin} {...props} />}></Route>
+            {this.state.currentUser == null?
               <Route path="/login"
-                render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
-
+                render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>:
+              ''
+            } 
 
               <div className="center">
                 <div className="main" >
@@ -186,7 +193,7 @@ class App extends Component {
                     <Route path="/users/:username"
                       render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
                     </Route>
-                    <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
+                   
                     <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option1" handleLogout={this.handleLogout}
                       component={(props) => <Option1 isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></PrivateRoute>
                     <PrivateRoute authenticated={this.state.isAuthenticated} path="/Option2" handleLogout={this.handleLogout}
